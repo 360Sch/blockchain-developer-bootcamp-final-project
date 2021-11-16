@@ -1,0 +1,45 @@
+[
+  {
+    "id": 0,
+    "name": "Unit 01-01",
+    "description": "1 Bedroom",
+    "picture": "img/type1.jpg",
+    "price": "100"
+  },
+  {
+    "id": 1,
+    "name": "Unit 01-02",
+    "description": "2 Bedrooms",
+    "picture": "img/type2.jpg",
+    "price": "200"
+  },
+  {
+    "id": 2,
+    "name": "Unit 01-03",
+    "description":"3 Bedrooms",
+    "picture": "img/type3.jpg",
+    "price": "300"
+  },
+  {
+    "id": 3,
+    "name": "Unit 01-04",
+    "description":"4 Bedrooms",
+    "picture": "img/type4.jpg",
+    "price": "400"
+  },
+  {
+    "id": 4,
+    "name": "01-05",
+    "description":"5 Bedrooms",
+    "picture": "img/type5.jpg",
+    "price": "500"
+    },
+  {
+    "id": 5,
+    "name": "02-01",
+    "description":"Penthouse",
+    "picture": "img/type6.jpg",
+    "price": "800"
+  }
+  
+]
