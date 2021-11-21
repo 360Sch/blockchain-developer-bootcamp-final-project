@@ -12,12 +12,27 @@
 <body>
   <div class="container">
     <div class="row">
-      <button id="mm-connect-btn">Connect to MetaMask</button>
-      <div id="mm-network">Blockchain Network: <span id="mm-connected-network">No Network connected</span></div>
-      <div id="mm-account">Account Address: <span id="mm-connected-account">No account connected</span></div>
-      <div id="mm-account-balance">Account Balance: <span id="mm-account-balance-eth"></span></div>
-      <div id="escrow-balance">Escrow Balance: <span id="escrow-balance-eth"></span></div>
-      <button id="buy-btn">Buy a Property</button>
+      <div class="col-sm-6">
+        Buyer Acccout:
+        <button class="btn btn-default" id="mm-connect-btn">Connect to MetaMask</button>
+        <div id="mm-network">Blockchain Network: <span id="mm-connected-network">No Network connected</span></div>
+        <div id="mm-account">Account Address: <span id="mm-connected-account">No account connected</span></div>
+        <div id="mm-account-balance">Account Balance: <span id="mm-account-balance-eth"></span></div>
+        <div id="escrow-balance">Escrow Balance: <span id="escrow-balance-eth"></span></div>
+        <button class="btn btn-default" id="buy-btn">Buy a Property</button>
+      </div>
+      <div class="col-sm-6">
+        Property Owner: Create new property
+        <div class="input-group">
+          <input id="roomType" type="text" class="form-control" placeholder="Number of rooms">
+        </div>
+        <div class="input-group">
+          <input id="priceProperty" type="text" class="form-control" placeholder="Price of propery">
+        </div>
+        <button class="btn btn-default" id="create-property-btn" type="submit">Create Property</button>
+
+        <button class="btn btn-default" id="get-past-events-btn">Past events</button>
+      </div>
     </div>
 
     <div id="propertyRow" class="row">
@@ -35,7 +50,7 @@
             <img alt="140x140" data-src="holder.js/140x140" class="img-rounded img-center" style="width: 100%;" src="" data-holder-rendered="true">
             <br/><br/>
             <strong>Description</strong>: <span class="property-description"></span><br/>
-            <strong>Price</strong>: <span class="property-price"></span><br/>
+            <strong>Downpayment: </strong>: <span class="property-price"></span> WEI<br/>
             <br/>
             <button class="btn btn-default purchase-btn" type="button" data-id="0">Book Now</button>
           </div>
@@ -46,9 +61,12 @@
 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-<script src="app.js"></script>
 <script src="https://code.jquery.com/jquery-3.0.0.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<script src="app.js"></script>
+
 </html>
+

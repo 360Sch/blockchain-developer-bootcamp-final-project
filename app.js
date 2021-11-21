@@ -2,175 +2,81 @@
 var web3 = new Web3(window.ethereum)
 
 //Contract Address:
-const escrowContractAdd = "0xb35Ae76afd6B31eb51F5e64bc753a259a5390740"
-const escrowContractABI = [ {
-  "inputs": [],
-  "stateMutability": "nonpayable",
-  "type": "constructor"
-},
-{
-  "anonymous": false,
-  "inputs": [
-    {
-      "indexed": false,
-      "internalType": "uint256",
-      "name": "unit",
-      "type": "uint256"
-    }
-  ],
-  "name": "unitPurchased",
-  "type": "event"
-},
-{
-  "stateMutability": "payable",
-  "type": "fallback",
-  "payable": true
-},
-{
-  "inputs": [],
-  "name": "buyer",
-  "outputs": [
-    {
-      "internalType": "address",
-      "name": "",
-      "type": "address"
-    }
-  ],
-  "stateMutability": "view",
-  "type": "function",
-  "constant": true
-},
-{
-  "inputs": [],
-  "name": "currentStatus",
-  "outputs": [
-    {
-      "internalType": "enum Escrow.Status",
-      "name": "",
-      "type": "uint8"
-    }
-  ],
-  "stateMutability": "view",
-  "type": "function",
-  "constant": true
-},
-{
-  "inputs": [
-    {
-      "internalType": "uint256",
-      "name": "",
-      "type": "uint256"
-    }
-  ],
-  "name": "owners",
-  "outputs": [
-    {
-      "internalType": "address",
-      "name": "",
-      "type": "address"
-    }
-  ],
-  "stateMutability": "view",
-  "type": "function",
-  "constant": true
-},
-{
-  "inputs": [],
-  "name": "seller",
-  "outputs": [
-    {
-      "internalType": "address",
-      "name": "",
-      "type": "address"
-    }
-  ],
-  "stateMutability": "view",
-  "type": "function",
-  "constant": true
-},
-{
-  "stateMutability": "payable",
-  "type": "receive",
-  "payable": true
-},
-{
-  "inputs": [],
-  "name": "getBalance",
-  "outputs": [
-    {
-      "internalType": "uint256",
-      "name": "",
-      "type": "uint256"
-    }
-  ],
-  "stateMutability": "view",
-  "type": "function",
-  "constant": true
-},
-{
-  "inputs": [
-    {
-      "internalType": "uint256",
-      "name": "_unit",
-      "type": "uint256"
-    }
-  ],
-  "name": "makePayment",
-  "outputs": [
-    {
-      "internalType": "uint256",
-      "name": "purchasedUnit",
-      "type": "uint256"
-    }
-  ],
-  "stateMutability": "payable",
-  "type": "function",
-  "payable": true
-},
-{
-  "inputs": [],
-  "name": "completePurchase",
-  "outputs": [],
-  "stateMutability": "payable",
-  "type": "function",
-  "payable": true
-}]
+const escrowContractAdd = "0x68dc0c4D3Bc722A69977Ef67c2aa137218887E46"
+var escrowContractABI = []
+$.getJSON('/huatescrow/build/contracts/Escrow.json', function(data) {
+  escrowContractABI = data.abi
+  // console.log(data.abi)  
+})
 
 const contractBalance = document.getElementById('buy-btn')
 
-
 window.addEventListener('load', function(){
-    console.log('Windows load running')
-    // Check if browser supports Ethereum
-    if (typeof window.ethereum !== 'undefined'){
-        console.log('Windows Ethereum is found.')
-        // Check if Metamask is installed
-        if( window.ethereum.isMetaMask == true) {
-            console.log('MetaMask is found')
+  console.log('Windows load running')
+  // Check if browser supports Ethereum
+  if (typeof window.ethereum !== 'undefined'){
+      console.log('Windows Ethereum is found.')
+      // Check if Metamask is installed
+      if( window.ethereum.isMetaMask == true) {
+          console.log('MetaMask is found')
+      } else {
+          console.log('Please install or restart MetaMask')
+      }
+  }
+  else {
+      console.log('Windows Ethereum is not found. Try to install MetaMask')
+  }
+
+  
+  const escrowContract = new web3.eth.Contract(escrowContractABI,escrowContractAdd)
+  escrowContract.setProvider(window.ethereum)
+  
+  async function loadProperties() {
+    const propertiesCount = await escrowContract.methods.totalProperties().call()
+    console.log(`Total properties ${propertiesCount}`)
+ 
+    var propertyRow = $('#propertyRow');
+    var propertyTemplate = $('#propertyTemplate');
+
+    for ( var i = 1; i <= propertiesCount; i++) {
+        const property = await escrowContract.methods.properties(i).call()
+        // console.log('inside')
+        propertyTemplate.find('.property-title').text('Unit ' + i);
+
+        if (property[0] == 1) {
+          propertyTemplate.find('img').attr('src', 'img/type1.jpg')
+        } else if (property[0] == 2) {
+          propertyTemplate.find('img').attr('src', 'img/type2.jpg')
+        } else if (property[0] == 3) {
+          propertyTemplate.find('img').attr('src', 'img/type3.jpg')
         } else {
-            console.log('Please install or restart MetaMask')
+          propertyTemplate.find('img').attr('src', 'img/type3.jpg')
         }
-    }
-    else {
-        console.log('Windows Ethereum is not found. Try to install MetaMask')
-    }
+       
+        propertyTemplate.find('.property-description').text(property[0] + ' bedroom');
+        propertyTemplate.find('.property-price').text(property[1]) ;
+        // propertyTemplate.find('.property-address').text(data[i].location)
 
-    
-  $.getJSON('../property.json', function(data) {
-      var propertyRow = $('#propertyRow');
-      var propertyTemplate = $('#propertyTemplate');
-
-      for (i = 0; i < data.length; i ++) {
-        propertyTemplate.find('.property-title').text(data[i].name);
-        propertyTemplate.find('img').attr('src', data[i].picture);
-        propertyTemplate.find('.property-description').text(data[i].description);
-        propertyTemplate.find('.property-price').text(data[i].price + " ETH") ;
-        // propertyTemplate.find('.property-address').text(data[i].location);
-        propertyTemplate.find('.purchase-btn').attr('data-id', data[i].id);
+        if (property[3] == 0 ){
+          propertyTemplate.find('.purchase-btn').html('Book now')
+        } else if (property[3] == 1 ){
+          propertyTemplate.find('.purchase-btn').html('Booked')
+        } else if (property[3] == 2 ) {
+          propertyTemplate.find('.purchase-btn').html('Solded!')
+        } else {
+          propertyTemplate.find('.purchase-btn').attr("disbled", true)
+          propertyTemplate.find('.purchase-btn').html('Not Available')
+        }
+        
+        propertyTemplate.find('.purchase-btn').attr('data-id', i);
 
         propertyRow.append(propertyTemplate.html());
-      }
-    });
+      
+    }
+  }
+  loadProperties()
+
+ 
 
     
     $(document).on('click', '.purchase-btn', async(event) => {
@@ -178,10 +84,7 @@ window.addEventListener('load', function(){
        var propertyId = parseInt($(event.target).data('id'));
        console.log(`click property ${propertyId}`)
 
-       const buyConnector = new web3.eth.Contract(escrowContractABI,escrowContractAdd)
-       buyConnector.setProvider(window.ethereum)
-
-       const result = await buyConnector.methods.makePayment(propertyId).send({from:ethereum.selectedAddress, value: web3.utils.toWei('1', 'ether') })
+       const result = await escrowContract.methods.payDeposit(propertyId).send({from:ethereum.selectedAddress, value: web3.utils.toWei('1', 'wei') })
        for (const x in result){
         console.log(`Purchased ${x} : ${result[x]}`)
        }
@@ -192,6 +95,54 @@ window.addEventListener('load', function(){
         console.log(`Purchased ${x} : ${result['events']['unitPurchased'][x]}`)
        }
     })
+
+    $('#create-property-btn').click( async (event)=>{
+      event.preventDefault()
+      await escrowContract.methods.createProperty($('#roomType').val(), $('#priceProperty').val()).send({from: ethereum.selectedAddress})
+      
+      // Remove properties listed
+      $('#propertyRow').empty();
+      // Display properties - Not the most efficient way to do this
+      loadProperties()
+
+      //test results
+      // for (const x in result){
+      //   console.log(`Purchased ${x} : ${result[x]}`)
+      //  }
+      //  for (const x in result['events']){
+      //   console.log(`Purchased ${x} : ${result['events'][x]}`)
+      //  }
+    })
+
+     // May fail to load sometimes
+    // const createPropertyEvent = escrowContract.events;
+    // createPropertyEvent.PropertyCreated({
+    //  //  fromBlock: 0,
+    //  //  toBlock: 'latest'
+    // },function(error, result){
+    //   if (error)
+    //   {
+    //    console.log(error)
+    //   } else {
+    //     console.log(`property ${result['returnValues']} `)  
+    //     for (const x in result['returnValues']){
+    //     console.log(`event result ${x} : ${result['returnValues'][x]}`)
+    //     }
+    //   }
+    // })
+
+    // Test to read events
+    $(document).on('click', '#get-past-events-btn', async(event)=>{
+      event.preventDefault()
+      const pastEvents = await escrowContract.getPastEvents(
+        'PropertyCreated',
+        {
+          fromBlock:94
+        }
+      )
+      console.log(`Past events: ${JSON.stringify(pastEvents)}`)
+    })
+  
 })
 
 
@@ -231,7 +182,7 @@ ethereumBTN.onclick = async () => {
     mmAccountBalance.innerHTML = web3.utils.fromWei(accountBalance) + " ETH"
 
     //Show Escrow Contract Balanace
-    const escrowBalance = await web3.eth.getBalance("0x931ec913C33B358DA85Ead3f4C65Cc64b0e449f6")
+    const escrowBalance = await web3.eth.getBalance(escrowContractAdd)
     escrowContractBalance.innerHTML = web3.utils.fromWei(escrowBalance) + " ETH"
 // ethereum.on('accountsChanged', function(accounts){
 //     console.log(`New Account connected: ${ethereum.selectedAddress}`)
@@ -244,15 +195,14 @@ ethereumBTN.onclick = async () => {
 // });
 }    
 
+ 
 
 
+//  createPropertyBTH.onclick = async () => {
+//     const ownerAccounts = await ethereum.request({method: 'eth_requestAccounts'})
+//     console.log(`Owner account: ${ownerAccounts}`)
+//     const ownerAccount = ethereum.selectedAddress
 
-// contractBalance.onclick = async () => {
-//     var web3 = new Web3(window.ethereum)
-//     const escrowContract = new web3.eth.Contract(escrowContractABI, escrowContractAdd)
-//     // escrowContract.setProvider(window.ethereum)
+    
 
-//     // await escrowContract.methods.retrieve().call()
-
-//     console.log(escrowContractBal)
-// }
+//  }

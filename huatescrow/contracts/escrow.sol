@@ -4,83 +4,79 @@ pragma solidity >=0.7.0 <0.9.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-// V1 - Buyer will buy property and pay full price directly
+// V1 - Buyer will buy property directly
 
+// V2 - Buyer will reserve property and need to make a payment with 3 days.
 // Declare contract
-contract Escrow {
-    
-    address[16] public owners;
-    
+contract Escrow is Ownable {
+
     enum Status {
-        PENDING,
+        NEW,
         // PAID,
-        PROCESSING,
-        COMPLETE,
-        CANCEL
+        BOOKED,
+        COMPLETED
+        // CANCEL
+    }
+
+    uint public totalProperties;
+    
+    struct Property {
+        string roomType;
+        uint price;
+        Status currentStatus;
+        uint deposit;
+        address owner;
     }
     
-    Status public currentStatus;
-    address public buyer;
-    // Seller will deploy the smart contract
-    address public seller;
+    mapping (uint => Property) public properties;
     
-    // uint public currentDateTime = block.timestamp;
+    constructor() {
+        totalProperties = 0;
+    }
     
-    // modifier onlyBuyer(){
-    //     require(msg.sender == buyer, "Only buyer can pay for this");
-    //     _;
-    // }
-    
-    // modifier onlySeller(){
-    //     require(msg.sender == seller, "Only seller can process this");
-    //     _;
-    // }
-    
-    modifier checkStatus(Status expectedState) {
-        require(currentStatus == expectedState);
+    // Currently is 1 wei
+    modifier isFullDeposit(uint id) {
+        require( msg.value == properties[id].price, "Please pay the full deposit at one go");
         _;
     }
     
-    // Run once to initialize the state of the contract
-    constructor() {
-        seller = msg.sender;
+    event PropertyCreated(uint id);
+    
+    event DepositCompleted(uint id, address owner, uint deposit);
+    
+    event PropertyBooked(uint id);
+    
+    function createProperty(string memory _roomType, uint _price) public onlyOwner {
+        // Check property don't exisit, check mapping count
+       totalProperties ++;
+       properties[totalProperties] = Property(_roomType,  _price, Status.NEW, 0, msg.sender );
+       emit PropertyCreated(totalProperties);
     }
     
-    // Must have if you want to use Metamask to send ETH to this contract
-    // Function to receive Ether. msg.data must be empty
-    receive() external payable {}
 
-    // Fallback function is called when msg.data is not empty
-    fallback() external payable {}
-    
-    // Get Balance of contract 
-    function getBalance() public view returns (uint) {
-        return address(this).balance;
+    // Check if status is NEW
+    // Check if payment is made in full
+    function payDeposit(uint _id) isFullDeposit(_id) public payable {
+        require(_id >=1 && _id <= totalProperties, "No such unit for sale");
+        require(properties[_id].currentStatus == Status.NEW, "Property Unit status is not New" );
+        
+        Property memory _property = properties[_id];
+        _property.deposit = msg.value;
+        _property.owner = msg.sender;
+        _property.currentStatus = Status.BOOKED;
+        properties[_id] = _property;
+        emit DepositCompleted(_id, msg.sender, msg.value);
     }
     
-    event unitPurchased(uint unit);
-    
-    // 
-    // function makePayment(uint _unit) checkStatus(Status.PENDING) external payable returns (uint){
-        function makePayment(uint _unit) external payable returns (uint purchasedUnit){
-        // require(currentStatus == Status.PENDING, "Deposited made by buyer");
-        require(_unit >= 0 && _unit <= 15, "No such unit for sale");
-        buyer = msg.sender;
-        owners[_unit] = msg.sender;
-        currentStatus = Status.PROCESSING;
-        emit unitPurchased(_unit);
-        return _unit;
+    // Check if status is PROCESSING
+    // TODO V2 Time-base to commplete the purchase
+    function completeBooking(uint _id) public onlyOwner {
+        require(properties[_id].currentStatus == Status.BOOKED, "Property is not booked");
+        // TODO transfer ETH to Property developer's account
+        Property memory _property = properties[_id];
+        _property.currentStatus = Status.COMPLETED;
+        properties[_id] = _property;
+        emit PropertyBooked(_id);
     }
     
-    function completePurchase() onlyOwner checkStatus(Status.PROCESSING) external payable{
-        // require(currentStatus == Status.PROCESSING, "Waiting for Deposit");
-        payable(seller).transfer(address(this).balance);
-        currentStatus = Status.COMPLETE;
-    }
-    
-    
-//     function readableDateTime(uint _currentDateTime) public {
-//         current = new Date(_currentDateTime * 1000);
-
-//     }
 }
