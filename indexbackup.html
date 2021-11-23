@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, 
+    initial-scale=1.0">
+    <link rel="shortcut icon" href="fa.png" />
+    <link href="cssstyle/bootstrap.min.css" rel="stylesheet">
+    <title>New Property Launch</title>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        Buyer Acccout:
+        <button class="btn btn-default" id="mm-connect-btn" onclick="App.loadAccount()">Connect to MetaMask</button>
+        <div id="mm-network">Blockchain Network: <span id="mm-connected-network">No Network connected</span></div>
+        <div id="mm-account">Account Address: <span id="mm-connected-account">No account connected</span></div>
+        <div id="mm-account-balance">Account Balance: <span id="mm-account-balance-eth"></span></div>
+      </div>
+      <div class="col-sm-6">
+        Property Owner: Create new property
+        <div class="input-group">
+          <input id="roomType" type="text" class="form-control" placeholder="Number of rooms">
+        </div>
+        <div class="input-group">
+          <input id="priceProperty" type="text" class="form-control" placeholder="Price of property in ETH">
+        </div>
+        <button class="btn btn-default" id="create-property-btn" type="submit" onclick="App.createProperty()">Create Property</button>
+        <div id="escrow-smart-contract">Escrow Address: <span id="escrow-smart-contract-address"></span></div>
+        <div id="number-of-properties">Number of Properties: <spann id="properties-count"></span></div>
+        <div id="escrow-balance">Escrow Balance: <span id="escrow-balance-eth"></span></div>
+      </div>
+    </div>
+
+    <div id="propertyRow" class="row">
+        <!-- PROPERTY LOAD HERE -->
+    </div>
+
+  </div>
+  <div id="propertyTemplate" style="display: none;">
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="panel panel-default panel-pet">
+          <div class="panel-heading">
+            <h3 class="property-title"></h3>
+          </div>
+          <div class="panel-body">
+            <img alt="140x140" data-src="holder.js/140x140" class="img-rounded img-center" style="width: 100%;" src="" data-holder-rendered="true">
+            <br/><br/>
+            <strong>Description</strong>: <span class="property-description"></span><br/>
+            <strong>Downpayment: </strong>: <span class="property-price"></span> ETH<br/>
+            <br/>
+            <span class="property-status"></span>
+            <button class="btn btn-default purchase-btn" type="button" data-id="0" onclick="App.buyProperty()">Pay deposit to book now</button>
+            <button class="btn btn-default complete-booking-btn" type="button" data-id="0" onclick="App.completeBooking()">Complete Booking(Owner only)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+
+</body>
+<!-- <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.3.6/web3.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.0.0.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<script src="app.js"></script>
+
+</html>
+

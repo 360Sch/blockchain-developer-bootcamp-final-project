@@ -69,7 +69,7 @@ contract Escrow is Ownable {
     }
     
     // Check if status is PROCESSING
-    // TODO V2 Time-base to commplete the purchase
+    // TODO V2 Time-base to commplete the purchase, NFT
     function completeBooking(uint _id) public onlyOwner {
         require(properties[_id].currentStatus == Status.BOOKED, "Property is not booked");
         // TODO transfer ETH to Property developer's account
@@ -78,5 +78,6 @@ contract Escrow is Ownable {
         properties[_id] = _property;
         emit PropertyBooked(_id);
     }
-    
+    // TODO transfer account balance to owner if status.COMPLETED
+
 }

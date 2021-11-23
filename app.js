@@ -32,16 +32,9 @@ App = {
             App.account = accounts[0]
             console.log(`account: ${App.account}`)
            $('#mm-connected-account').text(App.account)
-        
-            // TODO: refactor
-            const web3 = new Web3(window.ethereum)
-            //Show current network
-            const blockchainNetwork = await web3.eth.net.getNetworkType()
-            $('#mm-connected-network').text(blockchainNetwork)
-            //Show account balance
-            const accountBalance = await web3.eth.getBalance(App.account)
-            $('#mm-account-balance-eth').text(web3.utils.fromWei(accountBalance) + " ETH")
-
+            
+           await App.loadBalanceNetwork()
+           
         } catch (error) {
             if (error.code === 4001) {
               // User rejected request
@@ -67,6 +60,18 @@ App = {
         App.loadSmartContract()
            // web3.currentProvider.publicConfigStore.on('update', callback);
     },
+    loadBalanceNetwork: async() => {
+         // TODO: refactor
+         const web3 = new Web3(window.ethereum)
+         //Show current network
+         const blockchainNetwork = await web3.eth.net.getNetworkType()
+         $('#mm-connected-network').text(blockchainNetwork)
+         //Show account balance
+         //TODO: SHow new balance after making downpayment
+         const accountBalance = await web3.eth.getBalance(App.account)
+         $('#mm-account-balance-eth').text(web3.utils.fromWei(accountBalance) + " ETH")
+
+    },
     loadSmartContract: async () => {
 
         console.log('loadSmartContract')
@@ -82,7 +87,7 @@ App = {
         // TODO: Not sure if this is still required
         // escrowContract.setProvider(window.ethereum)
         const escrowBalance = await web3.eth.getBalance(escrowContractAdd)
-        $('#escrow-balance-eth').text(escrowBalance)
+        $('#escrow-balance-eth').text(web3.utils.fromWei(escrowBalance) + ' ETH')
         // escrowContract.methods.balanceOf('0xd26114cd6EE289AccF82350c8d8487fedB8A0C07').call((err, result) => { console.log(result) }
         await App.displayPropertyCount()
         await App.displayProperty()
@@ -102,6 +107,10 @@ App = {
         const contractOwner = await App.contracts.escrowContract.methods.owner().call()
         console.log(`Contract owner: ${contractOwner}`)
 
+
+        //TODO: refactor
+        const web3 = new Web3(window.ethereum)
+
         for ( var i = 1; i <= App.propertiesCount; i++) {
             const property = await App.contracts.escrowContract.methods.properties(i).call()
             propertyTemplate.find('.property-title').text('Unit ' + i);
@@ -117,13 +126,13 @@ App = {
             }
            
             propertyTemplate.find('.property-description').text(property[0] + ' bedroom');
-            propertyTemplate.find('.property-price').text(property[1]) ;
+            propertyTemplate.find('.property-price').text(web3.utils.fromWei(property[1], 'ether')) ;
             // propertyTemplate.find('.property-address').text(data[i].location)
             
             // TODO: refactor
             propertyTemplate.find('.purchase-btn').attr("disabled", false).show()
             propertyTemplate.find('.complete-booking-btn').hide()
-            propertyTemplate.find('.property-status').text('')
+            propertyTemplate.find('.property-status').html('<div class=text-success>Available</div>')
 
             if (property[2] == 0 ){
               propertyTemplate.find('.purchase-btn').html('Pay deposit to book now')
@@ -151,7 +160,10 @@ App = {
         
     },
     createProperty: async () => {
-        await App.contracts.escrowContract.methods.createProperty($('#roomType').val(), $('#priceProperty').val()).send({from: ethereum.selectedAddress})
+        console.log('Create Property')
+         // TODO: refactor this
+         const web3 = new Web3(window.ethereum)
+        await App.contracts.escrowContract.methods.createProperty($('#roomType').val(), web3.utils.toWei($('#priceProperty').val())).send({from: ethereum.selectedAddress})
         await App.displayPropertyCount()
         await App.displayProperty()
     },
@@ -166,8 +178,9 @@ App = {
         // console.log(`click property ${propertyId}`)
         try {
             await App.contracts.escrowContract.methods.payDeposit(propertyId).send({from: ethereum.selectedAddress, value: web3.utils.toWei(propertyDownPayment, 'wei')})
-            await App.displayPropertyCount()
-            await App.displayProperty()
+            await App.loadBalanceNetwork()
+            await App.loadSmartContract()
+           
         } catch(error) {
             console.log(error)
         }
