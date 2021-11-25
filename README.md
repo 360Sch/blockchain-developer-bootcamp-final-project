@@ -25,7 +25,7 @@ Frontend is developed using vanilla javascript. You do not need to a server to r
 [Design patterns used](https://github.com/on9commerce/blockchain-developer-bootcamp-final-project/blob/main/design_pattern_decisions.md)
 
 ## Avoid Common Attacks
-[Avoid common attacks](https://pages.github.com/)
+[Avoid common attacks](https://github.com/on9commerce/blockchain-developer-bootcamp-final-project/blob/main/avoiding_common_attacks.md)
 
 ## Unit Test
 
