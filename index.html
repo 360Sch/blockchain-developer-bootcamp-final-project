@@ -47,7 +47,7 @@
   <div class="card-deck mb-3 text-center"  id="propertyRow" >
     
   </div>
-  <div class="row">
+  <div class="row" id="owner-panel" style="display: none">
     <div class="col-md-7 text-center">
       <h4 class="mb-3">Create Property - Only by Owner of Contact</h4>
       <hr class="mb-4">
@@ -141,7 +141,7 @@
         <li><span class="property-description"></span</li>
       </ul>
       <button type="button" class="btn btn-lg btn-block btn-outline-primary purchase-btn" data-id="0" onclick="App.buyProperty()">Pay deposit to book now</button>
-      <button class="btn btn-lg btn-block btn-outline-warning complete-booking-btn" type="button" data-id="0" onclick="App.completeBooking()">Complete Booking(Owner)</button>
+      <button class="btn btn-lg btn-block btn-outline-warning complete-booking-btn" type="button" data-id="0" onclick="App.completeBooking()">Complete (Contract Owner)</button>
     </div>
     <div class="card-footer">
       <small class="property-status"></small>

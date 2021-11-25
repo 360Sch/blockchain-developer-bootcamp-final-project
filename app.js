@@ -23,6 +23,7 @@ App = {
             console.log('Windows Ethereum is not found. Try to install MetaMask')
             return;
         }
+     
     },
     loadAccount: async () => {
         console.log('loadAccount')
@@ -44,6 +45,7 @@ App = {
             return;
         }
 
+        $("#mm-connect-btn").text('Logout')
         //Reload page if user change or disconnect Metamask
         ethereum.on('accountsChanged', function(accounts){
             console.log(`New Account connected: ${ethereum.selectedAddress}`)
@@ -59,7 +61,7 @@ App = {
   
         App.loadSmartContract()
            // web3.currentProvider.publicConfigStore.on('update', callback);
-    },
+    },  
     loadBalanceNetwork: async() => {
          // TODO: refactor
          const web3 = new Web3(window.ethereum)
@@ -83,14 +85,24 @@ App = {
         // TODO: Read ABI easily during development phase. Change to actual ABI when we go live
         const escrowContractABI = await $.getJSON('/huatescrow/build/contracts/Escrow.json')    
         // Connect to contract
+     
         App.contracts.escrowContract = new web3.eth.Contract(escrowContractABI.abi, escrowContractAdd)
+     
         // TODO: Not sure if this is still required
         // escrowContract.setProvider(window.ethereum)
         const escrowBalance = await web3.eth.getBalance(escrowContractAdd)
-        $('#escrow-balance-eth').text(web3.utils.fromWei(escrowBalance) + ' ETH')
+          $('#escrow-balance-eth').text(web3.utils.fromWei(escrowBalance) + ' ETH')  
+      
         // escrowContract.methods.balanceOf('0xd26114cd6EE289AccF82350c8d8487fedB8A0C07').call((err, result) => { console.log(result) }
         await App.displayPropertyCount()
         await App.displayProperty()
+        
+        // TODO: refactor this
+        const contractOwner = await App.contracts.escrowContract.methods.owner().call()
+        if (contractOwner.toLowerCase() == App.account.toLowerCase()){
+          
+          $('#owner-panel').show()
+        }
 
     },
     displayPropertyCount: async() =>{
@@ -141,6 +153,7 @@ App = {
               propertyTemplate.find('.purchase-btn').attr("disabled", true).hide()
               propertyTemplate.find('.property-status').text('Unit is booked')
            
+              // TODO: refactor
               if (contractOwner.toLowerCase() == App.account.toLowerCase()){
                 propertyTemplate.find('.complete-booking-btn').attr('data-id', i);
                 propertyTemplate.find('.complete-booking-btn').show()    
@@ -161,11 +174,11 @@ App = {
     },
     createProperty: async () => {
         console.log('Create Property')
-         // TODO: refactor this
-         const web3 = new Web3(window.ethereum)
-        await App.contracts.escrowContract.methods.createProperty($('#roomType').val(), web3.utils.toWei($('#priceProperty').val())).send({from: ethereum.selectedAddress})
-        await App.displayPropertyCount()
-        await App.displayProperty()
+          const web3 = new Web3(window.ethereum)
+          await App.contracts.escrowContract.methods.createProperty($('#roomType').val(), web3.utils.toWei($('#priceProperty').val())).send({from: ethereum.selectedAddress})
+          await App.displayPropertyCount()
+          await App.displayProperty()
+        
     },
     buyProperty: async () =>{
         console.log('buyProperty')
@@ -200,6 +213,10 @@ App = {
         } catch(error) {
             console.log(error)
         }
+    },
+    isContractOwner: async() =>{
+      console.log('isContractOWners')
+      return true
     }
 }
 
