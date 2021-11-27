@@ -80,10 +80,10 @@ App = {
         // Create instance of Web3
         const web3 = new Web3(window.ethereum)
         // Contract Address:
-        const escrowContractAdd = "0x68dc0c4D3Bc722A69977Ef67c2aa137218887E46"
+        const escrowContractAdd = "0xf99886F46B482AF9a1407eDADEee6cc9646798F6"
         $('#escrow-smart-contract-address').text(escrowContractAdd)
         // TODO: Read ABI easily during development phase. Change to actual ABI when we go live
-        const escrowContractABI = await $.getJSON('/huatescrow/build/contracts/Escrow.json')    
+        const escrowContractABI = await $.getJSON('/ESCROW/build/contracts/Escrow.json')    
         // Connect to contract
      
         App.contracts.escrowContract = new web3.eth.Contract(escrowContractABI.abi, escrowContractAdd)

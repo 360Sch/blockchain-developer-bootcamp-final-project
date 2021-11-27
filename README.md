@@ -30,5 +30,10 @@ Frontend is developed using vanilla javascript. You do not need to a server to r
 ## Unit Test
 
 ## Deployed Address
+A deployed_address.txt
+
+## APP URL
 
 ## Screenscast
+
+

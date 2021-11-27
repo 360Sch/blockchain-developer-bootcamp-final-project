@@ -57,18 +57,19 @@ contract Escrow is Ownable {
     /// @dev Allow only owner of contract to create a property
     /// @param _roomType is the number of bedrooms for this property
     /// @param _price is the price of this property in wei
-    function createProperty(string memory _roomType, uint _price) public onlyOwner {
+    function createProperty(string memory _roomType, uint _price) public onlyOwner  returns(uint) {
         // Check property don't exisit, check mapping count
        totalProperties ++;
        properties[totalProperties] = Property(_roomType,  _price, Status.NEW, 0, msg.sender );
        emit PropertyCreated(totalProperties);
+       return totalProperties;
     }
     
     /// @notice Buyer to make the downpayment deposit
     /// @dev Payable need to be made in full at one transaction with currentStatus as NEW
     /// @param _id propertyID
     
-    function payDeposit(uint _id) isFullDeposit(_id) public payable {
+    function payDeposit(uint _id) isFullDeposit(_id) public payable{
         require(_id >=1 && _id <= totalProperties, "No such unit for sale");
         require(properties[_id].currentStatus == Status.NEW, "Property Unit status is not New" );
         
