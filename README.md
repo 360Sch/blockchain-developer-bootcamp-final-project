@@ -27,10 +27,8 @@ Frontend is developed using vanilla javascript. You do not need to a server to r
 ## Avoid Common Attacks
 [Avoid common attacks](https://github.com/on9commerce/blockchain-developer-bootcamp-final-project/blob/main/avoiding_common_attacks.md)
 
-## Unit Test
-
 ## Deployed Address
-A deployed_address.txt
+[Deployed_address.txt](https://github.com/on9commerce/blockchain-developer-bootcamp-final-project/blob/main/deployed_address.txt)
 
 ## APP URL
 
