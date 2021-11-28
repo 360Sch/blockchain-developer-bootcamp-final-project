@@ -28,8 +28,8 @@ Future version: Owner is able to transfer ETH only if status of property is comp
 7. Create a few properties.
 8. Login with Metamask using another account and you will not be able to see the UI to create any new properties.
 9. You can buy the property that you like to book the unit
-10. Switch back to the owner account and you will able to see the complete property button that was purchased by the previous account.
-11. Click to 'complete the purchase' button for the property and the ESCROW account value will be updated at the bottom of the page.
+10. Switch back to the owner account and you will able to see the 'Complete (Contract Owner)' button on the property that was purchased by the previous account.
+11. Click to 'Complete (Contract Owner)' button for the property and the ESCROW account value will be updated at the bottom of the page.
 12. Click on 'Transfer ETH To Contract Owner' to receive ETH to your MetaMask wallet!
 
 
