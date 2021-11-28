@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <title>New Condominium Launched!</title>
+    <link rel="shortcut icon" href="img/house.png" />
     <!-- Bootstrap core CSS -->
-<link href="css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 
     <style>
@@ -111,7 +112,8 @@
             <h6 class="my-0" id="escrow-balance-eth"></h6>
             <small class="text-muted">Escrow Value</small>
           </div>
-        
+         <span><button class="btn btn-primary btn-sm btn-block" id="create-property-btn" type="submit" onclick="App.transferEthToOwner()">Transfer ETH To Contract Owner</button>
+         </span> 
         </li>
         <!-- <li class="list-group-item d-flex justify-content-between bg-light">
           <div class="text-success">

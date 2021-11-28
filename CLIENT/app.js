@@ -25,6 +25,7 @@ App = {
         }
      
     },
+    // TODO: V2 Create logout feature
     loadAccount: async () => {
         console.log('loadAccount')
         try {
@@ -45,7 +46,8 @@ App = {
             return;
         }
 
-        $("#mm-connect-btn").text('Logout')
+        $("#mm-connect-btn").hide() 
+        // text('Logout')
         //Reload page if user change or disconnect Metamask
         ethereum.on('accountsChanged', function(accounts){
             console.log(`New Account connected: ${ethereum.selectedAddress}`)
@@ -80,14 +82,233 @@ App = {
         // Create instance of Web3
         const web3 = new Web3(window.ethereum)
         // Contract Address:
-        const escrowContractAdd = "0x8c816E2e373d1aFF591C24f4B5D1782d2294Dd3c"
-        // local "0xf99886F46B482AF9a1407eDADEee6cc9646798F6"
-        $('#escrow-smart-contract-address').text(escrowContractAdd)
-        // TODO: Read ABI easily during development phase. Change to actual ABI when we go live
-        const escrowContractABI = await $.getJSON('/ESCROW/build/contracts/Escrow.json')    
+        const escrowContractAdd = "0x14c5B36b1FE2542f156E1Fd961d300748735A55c"
+        // local "0xBE907Fe42F54C2869a4FF9f08Fc3C078e632d47c"
+        // $('#escrow-smart-contract-address').text(escrowContractAdd)
+        //   const escrowContractABI = await $.getJSON('/ESCROW/build/contracts/Escrow.json')    
         // Connect to contract
-     
-        App.contracts.escrowContract = new web3.eth.Contract(escrowContractABI.abi, escrowContractAdd)
+        // App.contracts.escrowContract = new web3.eth.Contract(escrowContractABI.abi, escrowContractAdd)
+
+        // TODO: Read ABI easily during development phase. Change to actual ABI when we go live
+        const escrowContractABI = [  {
+          "inputs": [],
+          "stateMutability": "nonpayable",
+          "type": "constructor"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "deposit",
+              "type": "uint256"
+            }
+          ],
+          "name": "DepositCompleted",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            }
+          ],
+          "name": "PropertyBooked",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            }
+          ],
+          "name": "PropertyCreated",
+          "type": "event"
+        },
+        {
+          "inputs": [],
+          "name": "owner",
+          "outputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "name": "properties",
+          "outputs": [
+            {
+              "internalType": "string",
+              "name": "roomType",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "price",
+              "type": "uint256"
+            },
+            {
+              "internalType": "enum Escrow.Status",
+              "name": "currentStatus",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "deposit",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "renounceOwnership",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "totalProperties",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "transferOwnership",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "string",
+              "name": "_roomType",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "_price",
+              "type": "uint256"
+            }
+          ],
+          "name": "createProperty",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "_id",
+              "type": "uint256"
+            }
+          ],
+          "name": "payDeposit",
+          "outputs": [],
+          "stateMutability": "payable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "_id",
+              "type": "uint256"
+            }
+          ],
+          "name": "completeBooking",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "sendEthToOwner",
+          "outputs": [],
+          "stateMutability": "payable",
+          "type": "function"
+        }]
+        App.contracts.escrowContract = new web3.eth.Contract(escrowContractABI, escrowContractAdd)
+      
      
         // TODO: Not sure if this is still required
         // escrowContract.setProvider(window.ethereum)
@@ -214,6 +435,11 @@ App = {
         } catch(error) {
             console.log(error)
         }
+    },
+    transferEthToOwner: async() => {
+      console.log('Transfer ETH to contract owner')
+      await App.contracts.escrowContract.methods.sendEthToOwner().send({from: ethereum.selectedAddress})
+      window.location.reload();
     },
     isContractOwner: async() =>{
       console.log('isContractOWners')
