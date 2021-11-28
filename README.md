@@ -1,6 +1,6 @@
 # blockchain-developer-bootcamp-final-project
 
-## Idea: - Automated Property Purchases using Escrow Smart Contract
+## Idea: Automated Property Purchases using Escrow Smart Contract
 I like to use blockchain technology to simplify the conveyancing process and significantly reduce the time and cost it takes to buy and sell a property.
 
 In future, I would also like to explore fractional property ownership so users can pool their money to buy home or commercial property for investments.
@@ -45,6 +45,9 @@ Current Features:
 ### Frontend
 Frontend is developed using vanilla javascript. You do not need to a server to run the frontend. You can use live server in vscode. 
 
+### Unit Test
+truffle test
+
 ## Design Patterns
 [Design patterns used](https://github.com/on9commerce/blockchain-developer-bootcamp-final-project/blob/main/design_pattern_decisions.md)
 
@@ -55,7 +58,7 @@ Frontend is developed using vanilla javascript. You do not need to a server to r
 [Deployed_address.txt](https://github.com/on9commerce/blockchain-developer-bootcamp-final-project/blob/main/deployed_address.txt)
 
 ## Screenscast
-[Unlisted in Youtube](https://youtu.be/-gl2ZQShToc)
+[Youtube](https://youtu.be/-gl2ZQShToc)
 
 
 
