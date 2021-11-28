@@ -13,7 +13,7 @@ Current Features:
 - Any buyer with ETH is able to make a full downpayment for the property through MetaMask
 - After the buyer made the deposit, only the contract owner is able to complete the booking and transfer ETH out of the contract.
 
--Future version: Time-base to automatically commplete the booking,  Role-Based Management(Owner,Lawyer,Buyer for example) and allow owner to obtain the payment, issue NFT for property purchase. And improvement to the User Experience with better login, login and loading experiences.
+-Future version: Owner is able to transfer ETH only if status of property is completed, time-base to automatically commplete the booking,  tole-Based Management(Owner,Lawyer,Buyer for example) and allow owner to obtain the payment, issue NFT for property purchase. And improvement to the User Experience with better login, login and loading experiences.
 
 ## APP URL
 [https://on9commerce.github.io/](https://on9commerce.github.io/)
@@ -55,7 +55,7 @@ Frontend is developed using vanilla javascript. You do not need to a server to r
 [Deployed_address.txt](https://github.com/on9commerce/blockchain-developer-bootcamp-final-project/blob/main/deployed_address.txt)
 
 ## Screenscast
+[Unlisted in Youtube](https://youtu.be/-gl2ZQShToc)
 
-complete all courses 
 
 
