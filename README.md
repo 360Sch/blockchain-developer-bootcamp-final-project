@@ -8,9 +8,16 @@ In future, I would also like to explore fractional property ownership so users c
 ## Current Solution
 -Current version 1: Using blockchain technology to enable users to book and make an downpayment for the property. Only the owner of the contract can finalize to accept the downpayment to complete the booking.
 
+Current Features:
+- Only contract owner is able create property for sale
+- Any buyer with ETH is able to make a full downpayment for the property through MetaMask
+- After the buyer made the deposit, only the contract owner is able to complete the booking 
+
 -Future version:  Time-base to automatically commplete the booking and allow owner to obtain the payment, issue NFT for property purchase.
 
 ## Project Structure
+- ESCROW - Solidaity Contract Files
+- CLIENT - Frontend files
 
 ### Backend
 - Node.js >= 12.16.3
