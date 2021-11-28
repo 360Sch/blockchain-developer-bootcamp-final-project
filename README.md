@@ -6,7 +6,7 @@ I like to use blockchain technology to simplify the conveyancing process and sig
 In future, I would also like to explore fractional property ownership so users can pool their money to buy home or commercial property for investments.
 
 ## Current Solution
--Current version 1: Using blockchain technology to enable users to book and make an downpayment for the property. Only the owner of the contract can finalize to accept the downpayment to complete the booking.
+-Current version: Using blockchain technology to enable users to book and make an downpayment for the property. Only the owner of the contract can finalize to accept the downpayment to complete the booking.
 
 Current Features:
 - Only contract owner is able create property for sale
@@ -34,8 +34,8 @@ Current Features:
 
 
 ## Project Structure
-- **ESCROW** - Solidaity Contract Files
-- CLIENT - Frontend Files
+- `ESCROW` - Solidaity Contract Files
+- `CLIENT` - Frontend Files
 
 ### Backend
 - Node.js >= 12.16.3
