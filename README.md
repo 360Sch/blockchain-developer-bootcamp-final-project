@@ -6,14 +6,14 @@ I like to use blockchain technology to simplify the conveyancing process and sig
 In future, I would also like to explore fractional property ownership so users can pool their money to buy home or commercial property for investments.
 
 ## Current Solution
--Current version: Using blockchain technology to enable users to book and make an downpayment for the property. Only the owner of the contract can finalize to accept the downpayment to complete the booking.
+Current version: Using blockchain technology to enable users to book and make an downpayment for the property. Only the owner of the contract can finalize to accept the downpayment to complete the booking.
 
 Current Features:
 - Only contract owner is able create property for sale
 - Any buyer with ETH is able to make a full downpayment for the property through MetaMask
 - After the buyer made the deposit, only the contract owner is able to complete the booking and transfer ETH out of the contract.
 
--Future version: Owner is able to transfer ETH only if status of property is completed, time-base to automatically commplete the booking,  tole-Based Management(Owner,Lawyer,Buyer for example) and allow owner to obtain the payment, issue NFT for property purchase. And improvement to the User Experience with better login, login and loading experiences.
+Future version: Owner is able to transfer ETH only if status of property is completed, time-base to automatically commplete the booking,  tole-Based Management(Owner,Lawyer,Buyer for example) and allow owner to obtain the payment, issue NFT for property purchase. And improvement to the User Experience with better login, login and loading experiences.
 
 ## APP URL
 [https://on9commerce.github.io/](https://on9commerce.github.io/)
@@ -60,5 +60,5 @@ truffle test
 ## Screenscast
 [Youtube](https://youtu.be/-gl2ZQShToc)
 
-
-
+## Public Ethereum Address for NFT Cert
+0x3B7e3ff9E864665DD747f2fa6D6A9a0780324c1b
